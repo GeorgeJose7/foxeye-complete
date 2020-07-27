@@ -1,0 +1,66 @@
+version: '3'
+
+services: 
+
+    discovery-server:
+        build: ./discovery-server
+        ports: 
+            - "8888:8761"
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - discovery-server
+
+    customer-db:
+        build: ./customerDB
+        depends_on: 
+            - discovery-server
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - customer-db
+    
+    customer-log-db:
+        build: ./customerLogDB
+        depends_on: 
+            - discovery-server
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - customer-log-db
+                    
+   
+    customer-log:
+        restart: on-failure
+        build: ./customerLog
+        ports: 
+            - "8082:8082"
+        depends_on: 
+            - customer-log-db
+            - discovery-server
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - customer-log
+    
+    customer:
+        build : ./customer
+        ports: 
+            - "8081:8081"
+        depends_on: 
+            - customer-db
+            - customer-log
+            - discovery-server
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - customer
+
+networks: 
+    mynet:
+        
