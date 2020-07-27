@@ -4,7 +4,6 @@ pipeline{
   stages {
     stage ('Checkout'){
       steps{
-        sh 'mkdir customer'
         sh 'cd customer'
         git branch: 'master',
             credentialsId: '57a803e6-1985-44a9-9b1d-27d44cf94159',
