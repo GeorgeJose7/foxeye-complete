@@ -10,7 +10,7 @@ pipeline{
               credentialsId: '57a803e6-1985-44a9-9b1d-27d44cf94159',
               url: 'https://github.com/GeorgeJose7/customer.git'
         }
-        dir("customerLög"){
+        dir("customerLog"){
           sh 'pwd'
           git branch: 'master',
               credentialsId: '57a803e6-1985-44a9-9b1d-27d44cf94159',
@@ -31,8 +31,30 @@ pipeline{
       }
     }
     stage('Build'){
+      stages{
+        stage('Maven-Builds'){
+          steps{
+            dir("customer"){
+              sh 'mvn clean compile install -DskipTests'
+            }
+            dir('customerLog'){
+              sh 'mvn clean compile install -DskipTests'
+            }
+            dir('discovery-server'){
+              sh 'sh clean compile install -DskipTests'
+            }
+          }
+        }
+        stage('Angular-Build'){
+          steps{
+            sh 'echo running angular build'
+          }
+        }
+      }
+    }
+    stage('Docker image Build'){
       steps{
-        dir
+        sh 'echo building docker images'
       }
     }
   }
