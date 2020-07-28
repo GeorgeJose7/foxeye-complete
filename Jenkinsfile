@@ -30,5 +30,10 @@ pipeline{
         }
       }
     }
+    stage('Build'){
+      steps{
+        dir
+      }
+    }
   }
 }
