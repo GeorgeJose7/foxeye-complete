@@ -41,7 +41,7 @@ pipeline{
               sh 'mvn clean compile install -DskipTests'
             }
             dir('discovery-server'){
-              sh 'sh clean compile install -DskipTests'
+              sh 'mvn clean compile install -DskipTests'
             }
           }
         }
