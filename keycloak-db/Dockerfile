@@ -1,0 +1,6 @@
+FROM mysql:latest
+ENV MYSQL_ROOT_PASSWORD root_password
+ENV MYSQL_USER keycloak
+ENV MYSQL_PASSWORD password
+ENV MYSQL_DATABASE keycloak
+EXPOSE 3306

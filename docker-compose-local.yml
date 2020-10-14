@@ -78,14 +78,26 @@ services:
     keycloak:
         build: ./keycloak
         restart: on-failure
+        depends_on: 
+            - keycloak-db
         networks: 
             mynet:
                 aliases: 
                     - keycloak
+            keycloak-network:
+
+    keycloak-db:
+        build: ./keycloak-db
+        restart: on-failure
+        networks: 
+            keycloak-network:
+                aliases: 
+                    - keycloak-db
+        
 
     config-server:
         build: ./config-server
-        ports: "8083:8083"
+        ports: "8083:8080"
         depends_on: 
             - discovery-server
         restart: on-failure
@@ -96,7 +108,7 @@ services:
 
     frontend:
         build: ./frontend
-        ports: "80:80"
+        ports: "4200:80"
         restart: on-failure
         networks: 
             mynet:
@@ -109,4 +121,5 @@ services:
 
 networks: 
     mynet:
+    keycloak-network:
         

@@ -1,0 +1,7 @@
+FROM jboss/keycloak
+ENV KEYCLOAK_USER=admin
+ENV KEYCLOAK_PASSWORD=admin
+ENV KEYCLOAK_IMPORT=./foxeye-realm.json
+ENV DB_ADDR=keycloak-db
+ENV DB_PORT=3306
+EXPOSE 8080

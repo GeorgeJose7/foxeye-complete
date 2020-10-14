@@ -74,10 +74,12 @@ services:
             mynet:
                 aliases: 
                     - keycloak
+            keycloak-network:
+                aliases: 
+                    - keycloak
 
     config-server:
         build: ./config-server
-        ports: "8083:8083"
         depends_on: 
             - discovery-server
         restart: on-failure
@@ -94,10 +96,17 @@ services:
                 aliases: 
                     - frontend
 
-
+    keycloak-db:
+        build: ./keycloak-db
+        restart: on-failure
+        networks: 
+            keycloak-network:
+                aliases: 
+                    - keycloak-db
     
 
 
 networks: 
     mynet:
+    keycloak-network:
         
