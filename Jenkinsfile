@@ -28,6 +28,18 @@ pipeline{
               credentialsId: 'github',
               url: 'https://github.com/GeorgeJose7/foxeye-frontend.git'
         }
+        dir("api-gateway"){
+          sh 'pwd'
+          git branch: 'master',
+              credentialsId: 'github',
+              url: 'https://github.com/GeorgeJose7/foxeye-gateway.git'
+        }
+        dir("config-server"){
+          sh 'pwd'
+          git branch: 'master',
+              credentialsId: 'github',
+              url: 'https://github.com/GeorgeJose7/foxeye-config-server.git'
+        }
       }
     }
     stage('Build'){
@@ -43,18 +55,28 @@ pipeline{
             dir('discovery-server'){
               sh 'mvn clean compile install -DskipTests'
             }
+            dir('api-gateway'){
+              sh 'mvn clean compile install -DskipTests'
+            }
+            dir('config-server'){
+              sh 'mvn clean compile install -DskipTests'
+            }
           }
         }
         stage('Angular-Build'){
           steps{
-            sh 'echo running angular build'
+            dir('frontend'){
+              sh 'ng build --prod'
+            }
           }
         }
       }
     }
     stage('Docker image Build'){
       steps{
-        sh 'echo building docker images'
+        sh 'rm docker-compose-local.yml'
+        sh 'docker-compose up'
+
       }
     }
   }
