@@ -5,7 +5,7 @@ services:
     discovery-server:
         build: ./discovery-server
         ports: 
-            - "8888:8761"
+            - "8761:8761"
         restart: on-failure
         networks: 
             mynet:
@@ -41,6 +41,7 @@ services:
         depends_on: 
             - customer-log-db
             - discovery-server
+            - api-gateway
         restart: on-failure
         networks: 
             mynet:
@@ -55,11 +56,52 @@ services:
             - customer-db
             - customer-log
             - discovery-server
+            - api-gateway
         restart: on-failure
         networks: 
             mynet:
                 aliases: 
                     - customer
+    
+    api-gateway:
+        build: ./api-gateway
+        ports: 
+            - "8080:8080"
+        depends_on: 
+            - discovery-server
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - api-gateway 
+    
+    keycloak:
+        build: ./keycloak
+        restart: on-failure
+        networks: 
+            mynet:
+                aliases: 
+                    - keycloak
+
+    config-server:
+        build: ./config-server
+        ports: "8083:8083"
+        networks: 
+            mynet:
+                aliases: 
+                    - config-server
+
+    frontend:
+        build: ./frontend
+        ports: "80:80"
+        networks: 
+            mynet:
+                aliases: 
+                    - frontend
+
+
+    
+
 
 networks: 
     mynet:
