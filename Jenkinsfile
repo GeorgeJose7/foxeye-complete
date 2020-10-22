@@ -66,6 +66,7 @@ pipeline{
         stage('Angular-Build'){
           steps{
             dir('frontend'){
+              sh 'npm update'
               sh 'ng build --prod'
             }
           }
