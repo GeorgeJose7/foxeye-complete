@@ -76,7 +76,7 @@ pipeline{
     stage('Docker image Build'){
       steps{
         sh 'rm docker-compose-local.yml'
-        sh 'sudo docker-compose up'
+        sh 'sudo docker-compose up -d'
 
       }
     }
