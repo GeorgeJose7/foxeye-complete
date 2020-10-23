@@ -42,6 +42,7 @@ services:
             - customer-log-db
             - discovery-server
             - api-gateway
+            - config-server
         restart: on-failure
         networks: 
             mynet:
@@ -57,6 +58,7 @@ services:
             - customer-log
             - discovery-server
             - api-gateway
+            - config-server
         restart: on-failure
         networks: 
             mynet:
@@ -69,6 +71,7 @@ services:
             - "8080:8080"
         depends_on: 
             - discovery-server
+            - config-server
         restart: on-failure
         networks: 
             mynet:
@@ -85,6 +88,8 @@ services:
                 aliases: 
                     - keycloak
             keycloak-network:
+                aliases: 
+                    - keycloak
 
     keycloak-db:
         build: ./keycloak-db
