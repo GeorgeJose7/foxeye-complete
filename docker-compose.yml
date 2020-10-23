@@ -72,6 +72,8 @@ services:
         restart: on-failure
         depends_on:
             - keycloak-db
+        ports: 
+            - "9001:8080"
         networks: 
             mynet:
                 aliases: 
